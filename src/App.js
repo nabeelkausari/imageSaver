@@ -26,6 +26,16 @@ class App extends Component {
       .then(res => res.json())
       .then(list => this.setState({ list }))
   }
+
+  saveImage (img) {
+    let file = img.split("/")
+    let fileName = file[file.length - 1];
+    let playerName = this.state.term;
+
+    fetch(`/saveImage?fileName=${fileName}&playerName=${playerName}`)
+      .then(res => res.json());
+  }
+
   render() {
     let {term, images, list} = this.state;
     return (
@@ -42,20 +52,17 @@ class App extends Component {
             </ListGroup>
           </Col>
           <Col xs={9}>
-            <p className="App-intro">
-              <input type="text"
-                     onChange={term => this.setState({term: term.target.value})}
-                     value={term}
-              />
-              <button onClick={this.makeSearch.bind(this)}>Search</button>
-            </p>
             <div>
               <ul>
                 {images.map(img => <Card style={{ display: "inline-block", marginBottom: 10 }}>
                   <Img src={img.contentUrl} style={{ height: 150 }}/>
                   <CardBody>
                     <CardText>{img.height} x {img.width}</CardText>
-                    <a href={img.contentUrl} download="new.jpg">Download</a>
+                    <a
+                      href={img.contentUrl}
+                      download="new.jpg"
+                      onClick={() => this.saveImage(img.contentUrl)}
+                    >Download</a>
                   </CardBody>
                 </Card>)}
               </ul>
