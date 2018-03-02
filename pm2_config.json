@@ -1,0 +1,8 @@
+{
+  "apps" : [{
+    "name"        : "imageSaver",
+    "script"      : "./server.js",
+    "watch"       : true,
+    "exec_mode"   : "fork"
+  }]
+}

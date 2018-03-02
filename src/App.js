@@ -9,11 +9,10 @@ class App extends Component {
   state = {
     term: '',
     images: [],
-    list: [],
-    customTerm: ''
+    list: []
   }
   makeSearch(term) {
-    fetch('http://localhost:4000/api?term='+ term || this.state.term)
+    fetch('/api?term='+ term || this.state.term)
       .then(res => res.json())
       .then(images => this.setState({images}))
   }
@@ -23,7 +22,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:4000/file')
+    fetch('/file')
       .then(res => res.json())
       .then(list => this.setState({ list }))
   }

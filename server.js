@@ -52,6 +52,12 @@ app.get('/api', (req, res) => {
     req2.end();
 });
 
+app.use(express.static(__dirname + '/build'));
+
+app.get('*', function(req, res) {
+  res.sendFile(__dirname + '/build/index.html');
+});
+
 app.listen(PORT, () => {
     console.log(`app is running on ${PORT}`)
 })
