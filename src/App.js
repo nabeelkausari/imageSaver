@@ -5,7 +5,7 @@ import { Card, CardText, CardBody, Container, Row, Col, ListGroup, ListGroupItem
 
 import fetch from 'node-fetch';
 
-const apiUrl = "http://localhost:4000/";
+const apiUrl = "/";
 
 class App extends Component {
   state = {
