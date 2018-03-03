@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import Img from 'react-image';
+import preLoader from './preLoader';
 import './App.css';
 import { Card, CardText, CardBody, Container, Row, Col, ListGroup, ListGroupItem, Label, Input, FormGroup } from 'reactstrap';
 
 import fetch from 'node-fetch';
 
 const apiUrl = "/";
+const extraTerm = "football";
 
 class App extends Component {
   state = {
@@ -21,7 +23,7 @@ class App extends Component {
   }
   startSearch(term) {
     this.setState({ term });
-    this.makeSearch(term);
+    this.makeSearch(`${term} ${extraTerm}`);
   }
 
   componentDidMount() {
@@ -77,10 +79,11 @@ class App extends Component {
             </ListGroup>
           </Col>
           <Col xs={9}>
-            <div>
+            {images.length === 0 && <h1>No Results Found</h1>}
+            {images.length > 0 && <div>
               <ul>
                 {images.map((img, i) => <Card key={i} style={{ display: "inline-block", marginBottom: 10 }}>
-                  <Img src={img.contentUrl} style={{ height: 150 }}/>
+                  <Img src={img.contentUrl} style={{ height: 150 }} loader={<preLoader/>}/>
                   <CardBody>
                     <CardText>{img.height} x {img.width}</CardText>
                     <a
@@ -91,7 +94,7 @@ class App extends Component {
                   </CardBody>
                 </Card>)}
               </ul>
-            </div>
+            </div>}
           </Col>
         </Row>
       </Container>

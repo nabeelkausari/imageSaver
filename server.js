@@ -63,7 +63,7 @@ app.get('/api', (req, res) => {
                 if (header.startsWith("bingapis-") || header.startsWith("x-msedge-"))
                      console.log(header + ": " + response.headers[header]);
             body = JSON.parse(body);
-            res.json(body.images.value);
+            res.json(body.images ? body.images.value : []);
         });
         response.on('error', function (e) {
             console.log('Error: ' + e.message);
