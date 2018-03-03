@@ -6,7 +6,6 @@ import { Card, CardText, CardBody, Container, Row, Col, ListGroup, ListGroupItem
 import fetch from 'node-fetch';
 
 const apiUrl = "/";
-const extraTerm = "football";
 
 class App extends Component {
   state = {
@@ -22,7 +21,7 @@ class App extends Component {
   }
   startSearch(term) {
     this.setState({ term });
-    this.makeSearch(`${term} ${extraTerm}`);
+    this.makeSearch(term);
   }
 
   componentDidMount() {
