@@ -56,7 +56,7 @@ class App extends Component {
     let fileName = file[file.length - 1];
     let playerName = this.state.term;
 
-    fetch(`${apiUrl}saveImage?fileName=${fileName}&playerName=${playerName}`)
+    fetch(`${apiUrl}saveImage?fileName=${fileName}&playerName=${playerName}&sport=${this.props.sport.toLowerCase()}`)
       .then(res => res.json());
   }
 

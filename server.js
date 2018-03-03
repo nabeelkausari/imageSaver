@@ -29,7 +29,8 @@ app.get('/file', (req, res) => {
 app.get('/saveImage', (req, res) => {
   let image = new Image ({
     fileName: req.query.fileName,
-    playerName: req.query.playerName
+    playerName: req.query.playerName,
+    sport: req.query.sport
   })
   image.save(err => {
     if (err) {
