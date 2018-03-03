@@ -21,7 +21,8 @@ app.use(cors());
 setupDB();
 
 app.get('/file', (req, res) => {
-  let file = fs.readFileSync("./data/football.json");
+  let fileName = req.query.name;
+  let file = fs.readFileSync("./data/" + fileName);
   res.json(JSON.parse(file));
 })
 

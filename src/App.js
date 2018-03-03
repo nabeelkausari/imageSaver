@@ -1,33 +1,32 @@
 import React, { Component } from 'react';
 import Img from 'react-image';
-import preLoader from './preLoader';
 import './App.css';
-import { Card, CardText, CardBody, Container, Row, Col, ListGroup, ListGroupItem, Label, Input, FormGroup } from 'reactstrap';
+import { Card, CardText, CardBody, Container, Row, Col, ListGroup, ListGroupItem, Input, FormGroup } from 'reactstrap';
 
 import fetch from 'node-fetch';
 
-const apiUrl = "/";
-const extraTerm = "football";
+const apiUrl = "http://localhost:4000/";
 
 class App extends Component {
   state = {
     term: '',
     images: [],
     list: [],
-    listSet: {}
+    listSet: {},
+    initial: true
   }
   makeSearch(term) {
     fetch(apiUrl + 'api?term='+ term || this.state.term)
       .then(res => res.json())
-      .then(images => this.setState({images}))
+      .then(images => this.setState({images, initial: false}))
   }
   startSearch(term) {
     this.setState({ term });
-    this.makeSearch(`${term} ${extraTerm}`);
+    this.makeSearch(`${term} ${this.props.sport}`);
   }
 
   componentDidMount() {
-    fetch(apiUrl + 'file')
+    fetch(apiUrl + 'file?name=' + this.props.fileName)
       .then(res => res.json())
       .then(list => {
         this.setState({listSet: this.makeListSet(list)});
@@ -62,9 +61,10 @@ class App extends Component {
   }
 
   render() {
-    let {images, list, listSet} = this.state;
+    let {images, list, listSet, initial} = this.state;
     return (
-      <Container className="App" style={{ marginTop: 70 }}>
+      <Container className="App" style={{ marginTop: 50 }}>
+        <h3 style={{ marginBottom: 50 }}>{this.props.sport}</h3>
         <Row>
           <Col xs={3}>
             <SelectRows set={listSet} setList={this.setList.bind(this)} />
@@ -79,11 +79,11 @@ class App extends Component {
             </ListGroup>
           </Col>
           <Col xs={9}>
-            {images.length === 0 && <h1>No Results Found</h1>}
+            {images.length === 0 && !initial && <h1>No Results Found</h1>}
             {images.length > 0 && <div>
               <ul>
                 {images.map((img, i) => <Card key={i} style={{ display: "inline-block", marginBottom: 10 }}>
-                  <Img src={img.contentUrl} style={{ height: 150 }} loader={<preLoader/>}/>
+                  <Img src={img.contentUrl} style={{ height: 150 }} />
                   <CardBody>
                     <CardText>{img.height} x {img.width}</CardText>
                     <a
